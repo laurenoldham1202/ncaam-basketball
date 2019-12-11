@@ -1,0 +1,66 @@
+Rank,College,FullCollegeName,FirstSeason,Seasons,Wins,Losses,Win_Perc,FullSchoolName,Titles,Years
+1,Kentucky,University of Kentucky,1903,116,"2,293",706,0.765,University of Kentucky,8,"1948, 1949, 1951, 1958, 1978, 1996, 1998, 2012"
+2,Kansas,Kansas University,1899,121,"2,274",865,0.724,Kansas University,3,"1952, 1988, 2008"
+3,North Carolina,University of North Carolina Chapel Hill,1911,109,"2,261",799,0.739,University of North Carolina Chapel Hill,6,"1957, 1982, 1993, 2005, 2009, 2017"
+4,Duke,Duke University,1906,114,"2,176",887,0.71,Duke University,5,"1991, 1992, 2001, 2010, 2015"
+5,Temple,Temple University,1895,123,"1,926","1,079",0.641,NA,0,NA
+6,Syracuse,Syracuse University,1901,118,"1,904",908,0.677,Syracuse University,1,2003
+7,UCLA,University of California Los Angeles,1920,100,"1,887",852,0.689,University of California Los Angeles,11,"1964, 1965, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1975, 1995"
+8,Notre Dame,University of Notre Dame,1898,114,"1,880","1,028",0.646,NA,0,NA
+9,St. John's,St. John's University,1908,112,"1,854","1,029",0.643,NA,0,NA
+10,Indiana,Indiana University Bloomington,1901,119,"1,836","1,034",0.64,University of Indiana Bloomington,5,"1940, 1953, 1976, 1981, 1987"
+11,Brigham Young,Brigham Young University,1903,117,"1,829","1,095",0.626,NA,0,NA
+12,Utah,University of Utah,1909,111,"1,819","1,004",0.644,University of Utah,1,1944
+13,Cincinnati,University of Cincinnati,1902,118,"1,816","1,015",0.641,University of Cincinatti,2,"1961, 1962"
+14,Arizona,University of Arizona,1905,114,"1,813",946,0.657,University of Arizona,1,1997
+15,Purdue,Purdue University,1897,121,"1,803","1,038",0.635,NA,0,NA
+16,Western Kentucky,Western Kentucky University,1915,100,"1,795",936,0.657,NA,0,NA
+17,Washington,University of Washington,1896,117,"1,792","1,184",0.602,NA,0,NA
+18,Illinois,University of Illinois at Urbana-Champaign,1906,114,"1,790","1,012",0.639,NA,0,NA
+19,Texas,University of Texas at Austin,1906,113,"1,790","1,085",0.623,NA,0,NA
+20,Pennsylvania,University of Pennsylvania,1897,119,"1,790","1,112",0.617,NA,0,NA
+21,Villanova,Villanova University,1921,99,"1,775",934,0.655,Villanova University,3,"1985, 2016, 2018"
+22,West Virginia,West Virginia University,1904,110,"1,771","1,100",0.617,NA,0,NA
+23,Princeton,Princeton University,1901,119,"1,747","1,090",0.616,NA,0,NA
+24,Oregon State,Oregon State University,1902,118,"1,745","1,350",0.563,NA,0,NA
+25,North Carolina State,North Carolina State University,1913,107,"1,737","1,062",0.621,NA,0,NA
+26,Louisville,University of Louisville,1912,105,"1,722",926,0.65,NA,2,"1980, 1986"
+27,Michigan State,Michigan State University,1899,120,"1,721","1,088",0.613,Michigan State University,2,"1979, 2000"
+28,UConn,University of Connecticut,1901,116,"1,712",974,0.637,NA,4,"1999, 2004, 2011, 2014"
+29,Ohio State,Ohio State University,1899,118,"1,690","1,083",0.609,Ohio State University,1,1960
+30,Arkansas,University of Arkansas,1924,96,"1,688",955,0.639,University of Arkansas,1,1994
+31,Alabama,University of Alabama,1913,106,"1,675","1,046",0.616,NA,0,NA
+32,Oklahoma,Oklahoma University,1908,112,"1,674","1,081",0.608,NA,0,NA
+33,Georgetown,Georgetown University,1907,111,"1,672","1,053",0.614,Georgetown University,1,1984
+34,Missouri State,Missouri State University,1909,107,"1,670","1,007",0.624,NA,0,NA
+35,Bradley,Bradley University,1903,115,"1,669","1,202",0.581,NA,0,NA
+36,Oregon,University of Oregon,1903,114,"1,669","1,362",0.551,University of Oregon,1,1939
+37,Gonzaga,Gonzaga University,1908,111,"1,668","1,098",0.603,NA,0,NA
+38,Oklahoma State,Oklahoma State University,1908,110,"1,662","1,175",0.586,Oklahoma State University,2,"1945, 1946"
+39,Kansas State,Kansas State University,1902,115,"1,661","1,155",0.59,NA,0,NA
+40,Tennessee,University of Tennessee,1909,110,"1,656","1,051",0.612,NA,0,NA
+41,Iowa,University of Iowa,1902,118,"1,651","1,159",0.588,NA,0,NA
+42,Dayton,University of Dayton,1904,114,"1,645","1,118",0.595,NA,0,NA
+43,Saint Joseph's,Saint Joseph's University,1910,110,"1,643","1,127",0.593,NA,0,NA
+44,Murray State,Murray State University,1926,94,"1,640",894,0.647,NA,0,NA
+45,Illinois State,Illinois State University,1899,121,"1,638","1,177",0.582,NA,0,NA
+46,Marquette,Marquette University,1917,102,"1,634","1,006",0.619,Marquette University,1,1977
+47,Virginia,University of Virginia Charlottesville,1906,114,"1,632","1,168",0.583,University of Virginia,1,2019
+48,Missouri,University of Missouri,1907,113,"1,615","1,164",0.581,NA,0,NA
+49,Pittsburgh,University of Pittsburgh,1906,112,"1,615","1,171",0.58,NA,0,NA
+50,Akron,University of Akron,1902,118,"1,608","1,032",0.609,NA,0,NA
+NA,Florida,University of Florida,1920,98,1432,1115,0.5622300746,University of Florida,2,"2006, 2007"
+NA,NC State,North Carolina State University,1912,107,1737,1068,0.6192513369,North Carolina State University,2,"1974, 1983"
+NA,San Francisco,University of San Francisco,1923,92,1386,1011,0.5782227785,University of San Francisco,2,"1955, 1956"
+NA,California,University of California Berkeley,1907,110,1621,1182,0.5783089547,University of California Berkeley,1,1959
+NA,CCNY,City College of New York,1905,58,593,311,0.656,City College of New York,1,1950
+NA,Holy Cross,College of the Holy Cross,1900,99,1412,994,0.5868661679,College of the Holy Cross,1,1947
+NA,La Salle,La Salle University,1931,88,1373,992,0.5805496829,La Salle University,1,1954
+NA,Loyola-Chicago,Loyola University Chicago,1920,98,1323,1163,0.5321802092,Loyola University Chicago,1,1963
+NA,Maryland,University of Maryland ,1923,96,1563,1035,0.6016166282,University of Marland ,1,2002
+NA,Michigan,University of Michigan,1917,102,1616,1039,0.6086629002,University of Michigan,1,1989
+NA,UNLV,University of Nevada Las Vegas,1969,49,1100,477,0.6975269499,University of Nevada Las Vegas,1,1990
+NA,Stanford,Stanford University,1913,104,1529,1163,0.5679791976,Stanford University,1,1942
+NA,UTEP,University of Texas El Paso,1922,94,1372,1043,0.568115942,University of Texas El Paso,1,1966
+NA,Wisconsin,University of Wisconsin Madison,1898,121,1614,1214,0.5707213579,University of Wisconsin Madison,1,1941
+NA,Wyoming,University of Wyoming,1904,114,1537,1184,0.5648658581,University of Wyoming,1,1943

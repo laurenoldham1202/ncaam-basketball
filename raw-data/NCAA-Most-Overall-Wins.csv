@@ -1,0 +1,51 @@
+Rank,College,FullCollegeName,FirstSeason,Seasons,Wins,Losses,Win_Perc
+1,Kentucky,University of Kentucky,1903,116,"2,293",706,0.765
+2,Kansas,Kansas University,1899,121,"2,274",865,0.724
+3,North Carolina,University of North Carolina Chapel Hill,1911,109,"2,261",799,0.739
+4,Duke,Duke University,1906,114,"2,176",887,0.71
+5,Temple,Temple University,1895,123,"1,926","1,079",0.641
+6,Syracuse,Syracuse University,1901,118,"1,904",908,0.677
+7,UCLA,University of California Los Angeles,1920,100,"1,887",852,0.689
+8,Notre Dame,University of Notre Dame,1898,114,"1,880","1,028",0.646
+9,St. John's,St. John's University,1908,112,"1,854","1,029",0.643
+10,Indiana,Indiana University Bloomington,1901,119,"1,836","1,034",0.64
+11,Brigham Young,Brigham Young University,1903,117,"1,829","1,095",0.626
+12,Utah,University of Utah,1909,111,"1,819","1,004",0.644
+13,Cincinnati,University of Cincinnati,1902,118,"1,816","1,015",0.641
+14,Arizona,University of Arizona,1905,114,"1,813",946,0.657
+15,Purdue,Purdue University,1897,121,"1,803","1,038",0.635
+16,Western Kentucky,Western Kentucky University,1915,100,"1,795",936,0.657
+17,Washington,University of Washington,1896,117,"1,792","1,184",0.602
+18,Illinois,University of Illinois Urbana-Champain,1906,114,"1,790","1,012",0.639
+19,Texas,University of Texas at Austin,1906,113,"1,790","1,085",0.623
+20,Pennsylvania,University of Pennsylvania,1897,119,"1,790","1,112",0.617
+21,Villanova,Villanova University,1921,99,"1,775",934,0.655
+22,West Virginia,West Virginia University,1904,110,"1,771","1,100",0.617
+23,Princeton,Princeton University,1901,119,"1,747","1,090",0.616
+24,Oregon State,Oregon State University,1902,118,"1,745","1,350",0.563
+25,North Carolina State,North Carolina State University,1913,107,"1,737","1,062",0.621
+26,Louisville,University of Louisville,1912,105,"1,722",926,0.65
+27,Michigan State,Michigan State University,1899,120,"1,721","1,088",0.613
+28,Connecticut,University of Connecticut,1901,116,"1,712",974,0.637
+29,Ohio State,Ohio State University,1899,118,"1,690","1,083",0.609
+30,Arkansas,University of Arkansas,1924,96,"1,688",955,0.639
+31,Alabama,University of Alabama,1913,106,"1,675","1,046",0.616
+32,Oklahoma,Oklahoma University,1908,112,"1,674","1,081",0.608
+33,Georgetown,Georgetown University,1907,111,"1,672","1,053",0.614
+34,Missouri State,Missouri State University,1909,107,"1,670","1,007",0.624
+35,Bradley,Bradley University,1903,115,"1,669","1,202",0.581
+36,Oregon,University of Oregon,1903,114,"1,669","1,362",0.551
+37,Gonzaga,Gonzaga University,1908,111,"1,668","1,098",0.603
+38,Oklahoma State,Oklahoma State University,1908,110,"1,662","1,175",0.586
+39,Kansas State,Kansas State University,1902,115,"1,661","1,155",0.59
+40,Tennessee,University of Tennessee,1909,110,"1,656","1,051",0.612
+41,Iowa,University of Iowa,1902,118,"1,651","1,159",0.588
+42,Dayton,University of Dayton,1904,114,"1,645","1,118",0.595
+43,Saint Joseph's,Saint Joseph's University,1910,110,"1,643","1,127",0.593
+44,Murray State,Murray State University,1926,94,"1,640",894,0.647
+45,Illinois State,Illinois State University,1899,121,"1,638","1,177",0.582
+46,Marquette,Marquette University,1917,102,"1,634","1,006",0.619
+47,Virginia,University of Virginia Charlottesville,1906,114,"1,632","1,168",0.583
+48,Missouri,University of Missouri,1907,113,"1,615","1,164",0.581
+49,Pittsburgh,University of Pittsburgh,1906,112,"1,615","1,171",0.58
+50,Akron,University of Akron,1902,118,"1,608","1,032",0.609
