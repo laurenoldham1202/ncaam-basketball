@@ -41,7 +41,7 @@
 <div class="header">
     <h1>Men's College Basketball Domination</h1>
 
-    <div class="btn-group btn-group-toggle btn-group-lg" data-toggle="buttons">
+    <div class="btn-group btn-group-toggle btn-group-lg" data-toggle="buttons" id="buttons">
         <label class="btn btn-secondary active">
             <input type="radio" name="options" id="option1" autocomplete="off" checked> Number of Overall Wins
         </label>
@@ -89,6 +89,8 @@
             createLayer(geojson);
         });
 
+        toggleLayer();
+
     });
 
     function createLayer(geojson) {
@@ -100,6 +102,13 @@
                 data: geojson,
             },
         });
+    }
+
+    function toggleLayer() {
+        const btns = document.getElementById('buttons');
+        btns.onclick = (e) => {
+            console.log(e.target.id);
+        }
     }
 
 </script>
