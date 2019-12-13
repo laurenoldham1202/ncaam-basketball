@@ -33,6 +33,11 @@
             background: whitesmoke;
             border-bottom: 3px solid orange;
         }
+
+        .popup-title {
+            text-align: center;
+            font-size: 16pt;
+        }
     </style>
 </head>
 <body>
@@ -89,6 +94,7 @@
             console.log(geojson);
             createLayer(geojson);
             applyStyles(geojson);
+            triggerPopup();
         });
 
         toggleLayer();
@@ -143,6 +149,31 @@
         btns.onclick = (e) => {
             console.log(e.target.id);
         }
+    }
+
+    function triggerPopup() {
+        map.on('mouseenter', 'schools', (e) => {
+
+            // TODO: Add school colors and mascots? images?
+            // TODO: Add popup styling
+            // TODO Create formula for overall best teams?
+            const props = e.features[0].properties;
+            const popupContent = `<div class="popup-title">${props.fullName}</div>
+<hr>
+<strong>${props.wins}</strong> Overall Wins Since ${props.firstSeason}
+<br>${props.losses} Losses
+<br><strong>${(props.winPercent * 100).toFixed(2)}%</strong> of Games Won Overall
+<br><strong>${props.titles}</strong> National Titles
+`;
+
+            popup.setLngLat(e.lngLat)
+               .setHTML(popupContent)
+               .addTo(map);
+        });
+
+        map.on('mouseleave', 'schools', () => {
+           popup.remove();
+        });
     }
 
 </script>
