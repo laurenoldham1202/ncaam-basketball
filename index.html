@@ -85,13 +85,27 @@
     map.on('load', () => {
 
         // load json with geocoded locations
-        d3.json('data/geocoded-stats.json').then(geojson => {
+        d3.json('data/school-stats.json').then(geojson => {
+            console.log(geojson);
             createLayer(geojson);
+            applyStyles(geojson);
         });
 
         toggleLayer();
 
     });
+
+    // 'circle-radius': {
+    //     property: 'sqrt',
+    //         stops: [
+    //         [{zoom: 8, value: 0}, 0],
+    //         [{zoom: 8, value: 250}, 1],
+    //         [{zoom: 11, value: 0}, 0],
+    //         [{zoom: 11, value: 250}, 6],
+    //         [{zoom: 16, value: 0}, 0],
+    //         [{zoom: 16, value: 250}, 40]
+    //     ]
+    // }
 
     function createLayer(geojson) {
         map.addLayer({
@@ -101,7 +115,27 @@
                 type: 'geojson',
                 data: geojson,
             },
+            paint: {
+                'circle-radius': {
+                    property: 'winPercent',
+                    stops: [
+                        [{zoom: 1, value: 0.5}, 1],
+                        [{zoom: 1, value: 0.6}, 5],
+                        [{zoom: 1, value: 0.7}, 10],
+                    ]
+                }
+            }
         });
+        // console.log('layer created');
+    }
+
+    function applyStyles(geojson) {
+        geojson.features.forEach(feature => {
+           // console.log(Math.log(feature.properties.Win_Perc*100));
+           // map.setPaintProperty('schools', 'circle-radius', feature.properties.Win_Perc*5);
+        });
+        // console.log('style applied');
+
     }
 
     function toggleLayer() {
