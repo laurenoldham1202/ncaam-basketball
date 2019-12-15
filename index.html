@@ -115,24 +115,25 @@
                     property: 'wins',
                     stops: createCircleRadiusStops(geojson, 'wins'),
                 },
-                'circle-color': setCircleColor(geojson)
+                // 'circle-color': setCircleColor(geojson, true),
+                'circle-color': '#414140',
+                'circle-opacity': 0.7,
+                'circle-stroke-color': setCircleColor(geojson, true),
+                'circle-stroke-width': 1,
             }
         });
     }
 
-    function setCircleColor(geojson) {
-
+    function setCircleColor(geojson, isCircleColor) {
+        const color = isCircleColor ? 'primaryColor' : 'secondaryColor';
         const colors = [];
         geojson.features.forEach(feature => {
-            colors.push(feature.properties.fullName, feature.properties.primaryColor);
-           // return feature.properties.primaryColor;
+            colors.push(feature.properties.fullName, feature.properties[color]);
         });
-        console.log(colors);
-        // return colors;
         return ['match', ['get', 'fullName'], ...colors, '#AAA'];
-
     }
 
+    // TODO dynamically generate breaks for each property?
     function createCircleRadiusStops(geojson, property) {
 
         // TODO find better sorting?
