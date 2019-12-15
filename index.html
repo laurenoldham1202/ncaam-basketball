@@ -115,8 +115,22 @@
                     property: 'wins',
                     stops: createCircleRadiusStops(geojson, 'wins'),
                 },
+                'circle-color': setCircleColor(geojson)
             }
         });
+    }
+
+    function setCircleColor(geojson) {
+
+        const colors = [];
+        geojson.features.forEach(feature => {
+            colors.push(feature.properties.fullName, feature.properties.primaryColor);
+           // return feature.properties.primaryColor;
+        });
+        console.log(colors);
+        // return colors;
+        return ['match', ['get', 'fullName'], ...colors, '#AAA'];
+
     }
 
     function createCircleRadiusStops(geojson, property) {
