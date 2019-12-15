@@ -95,26 +95,14 @@
             createLayer(geojson);
             triggerPopup();
             toggleLayer(geojson);
-
         });
-
-
     });
 
-    // 'circle-radius': {
-    //     property: 'sqrt',
-    //         stops: [
-    //         [{zoom: 8, value: 0}, 0],
-    //         [{zoom: 8, value: 250}, 1],
-    //         [{zoom: 11, value: 0}, 0],
-    //         [{zoom: 11, value: 250}, 6],
-    //         [{zoom: 16, value: 0}, 0],
-    //         [{zoom: 16, value: 250}, 40]
-    //     ]
-    // }
-
+    /**
+     * Create mapbox layer for schools, set initial view for Overall wins
+     * @param geojson
+     */
     function createLayer(geojson) {
-
         map.addLayer({
             id: 'schools',
             type: 'circle',
@@ -134,27 +122,28 @@
     function createCircleRadiusStops(geojson, property) {
 
         // TODO find better sorting?
+        // empty arrays to hold property values and stops
         const values = [];
         const stops = [];
 
-        // push unsorted
+        // push unsorted feature property values to array
         geojson.features.forEach(feature => {
             values.push(feature.properties[property]);
         });
 
+        // sort array in ascending order, required by mapbox data-driven styles for circle radius
         const sortedValues = values.sort((a, b) => { return a-b });
+        // push arrays with each property value and its calculated radius
         sortedValues.forEach(val => {
-            // stops.push([{zoom: 1, value: val}, val/150]);
             stops.push([{zoom: 1, value: val}, calculateRadius(property, val)]);
         });
         return stops;
     }
 
-    // TODO show 0 natl titles on map
     function calculateRadius(property, value) {
-        return property === 'wins' ? value/150 :
-            property === 'winPercent' ? value * 20 :
-                property === 'titles' ? value * 1.5 :
+        return property === 'wins' ? value / 150 :
+            property === 'winPercent' ? value * value * 30 :
+                property === 'titles' ? (value + 1) * 2 :  // add +1 to show teams with 0 titles on the map
                     property === 'seasons' ? value / 8 :
                         value;
     }
@@ -163,24 +152,10 @@
     function toggleLayer(geojson) {
         const btns = document.getElementById('buttons');
         btns.addEventListener('click', (e) => {
-           // console.log(e.target.children[0].id);
-
-            const stops = createCircleRadiusStops(geojson, e.target.children[0].id);
-            console.log(stops);
-
-
-            map.setPaintProperty('schools', 'circle-radius',
-                {
-                    property: e.target.children[0].id,
-                    stops: stops,
-                    // stops: [
-                    //     [{zoom: 1, value: 0.5}, 1],
-                    //     [{zoom: 1, value: 0.6}, 5],
-                    //     [{zoom: 1, value: 0.7}, 10],
-                    // ]
-                }
-            );
-
+            // set circle radius based on selected property
+            const selectedProperty = e.target.children[0].id;
+            const stops = createCircleRadiusStops(geojson, selectedProperty);
+            map.setPaintProperty('schools', 'circle-radius', { property: selectedProperty, stops: stops });
         });
     }
 
