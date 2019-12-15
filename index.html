@@ -128,8 +128,8 @@
                         [{zoom: 1, value: 0.5}, 1],
                         [{zoom: 1, value: 0.6}, 5],
                         [{zoom: 1, value: 0.7}, 10],
-                    ]
-                }
+                    ],
+                },
             }
         });
         // console.log('layer created');
@@ -149,6 +149,19 @@
         const btns = document.getElementById('buttons');
         btns.addEventListener('click', (e) => {
            console.log(e.target.children[0].id);
+
+
+            map.setPaintProperty('schools', 'circle-radius',
+                {
+                    property: e.target.children[0].id,
+                    stops: [
+                        [{zoom: 1, value: 0.5}, 1],
+                        [{zoom: 1, value: 0.6}, 5],
+                        [{zoom: 1, value: 0.7}, 10],
+                    ]
+                }
+            );
+
         });
     }
 
