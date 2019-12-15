@@ -115,21 +115,19 @@
 
     function createLayer(geojson) {
 
-        const values = [];
-        const stops = [];
-
-        geojson.features.forEach(feature => {
-            values.push(feature.properties.wins);
-
-            // stops.push([{zoom: 1, value: feature.properties.wins}, feature.properties.wins/250]);
-        });
-        // console.log(values);
-        // console.log(values.sort());
-
-        const sortedValues = values.sort((a, b) => { return a-b });
-        sortedValues.forEach(val => {
-            stops.push([{zoom: 1, value: val}, val/250]);
-        });
+        // // TODO find better sorting?
+        // const values = [];
+        // const stops = [];
+        //
+        // // push unsorted
+        // geojson.features.forEach(feature => {
+        //     values.push(feature.properties.wins);
+        // });
+        //
+        // const sortedValues = values.sort((a, b) => { return a-b });
+        // sortedValues.forEach(val => {
+        //     stops.push([{zoom: 1, value: val}, val/250]);
+        // });
 
         // console.log(stops);
 
@@ -143,16 +141,28 @@
             paint: {
                 'circle-radius': {
                     property: 'wins',
-                    stops: stops,
-                    // stops: [
-                    //     [{zoom: 1, value: 1500}, 1],
-                    //     [{zoom: 1, value: 2000}, 5],
-                    //     [{zoom: 1, value: 2500}, 10],
-                    // ],
+                    stops: createCircleRadiusStops(geojson),
                 },
             }
         });
         // console.log('layer created');
+    }
+
+    function createCircleRadiusStops(geojson) {
+        // TODO find better sorting?
+        const values = [];
+        const stops = [];
+
+        // push unsorted
+        geojson.features.forEach(feature => {
+            values.push(feature.properties.wins);
+        });
+
+        const sortedValues = values.sort((a, b) => { return a-b });
+        sortedValues.forEach(val => {
+            stops.push([{zoom: 1, value: val}, val/250]);
+        });
+        return stops;
     }
 
     function applyStyles(geojson) {
