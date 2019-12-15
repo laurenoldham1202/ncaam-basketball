@@ -93,11 +93,11 @@
         d3.json('data/school-stats.json').then(geojson => {
             // console.log(geojson);
             createLayer(geojson);
-            applyStyles(geojson);
             triggerPopup();
+            toggleLayer(geojson);
+
         });
 
-        toggleLayer();
 
     });
 
@@ -115,22 +115,6 @@
 
     function createLayer(geojson) {
 
-        // // TODO find better sorting?
-        // const values = [];
-        // const stops = [];
-        //
-        // // push unsorted
-        // geojson.features.forEach(feature => {
-        //     values.push(feature.properties.wins);
-        // });
-        //
-        // const sortedValues = values.sort((a, b) => { return a-b });
-        // sortedValues.forEach(val => {
-        //     stops.push([{zoom: 1, value: val}, val/250]);
-        // });
-
-        // console.log(stops);
-
         map.addLayer({
             id: 'schools',
             type: 'circle',
@@ -141,54 +125,59 @@
             paint: {
                 'circle-radius': {
                     property: 'wins',
-                    stops: createCircleRadiusStops(geojson),
+                    stops: createCircleRadiusStops(geojson, 'wins'),
                 },
             }
         });
-        // console.log('layer created');
     }
 
-    function createCircleRadiusStops(geojson) {
+    function createCircleRadiusStops(geojson, property) {
+
         // TODO find better sorting?
         const values = [];
         const stops = [];
 
         // push unsorted
         geojson.features.forEach(feature => {
-            values.push(feature.properties.wins);
+            values.push(feature.properties[property]);
         });
 
         const sortedValues = values.sort((a, b) => { return a-b });
         sortedValues.forEach(val => {
-            stops.push([{zoom: 1, value: val}, val/250]);
+            // stops.push([{zoom: 1, value: val}, val/150]);
+            stops.push([{zoom: 1, value: val}, calculateRadius(property, val)]);
         });
         return stops;
     }
 
-    function applyStyles(geojson) {
-        geojson.features.forEach(feature => {
-           // console.log(Math.log(feature.properties.Win_Perc*100));
-           // map.setPaintProperty('schools', 'circle-radius', feature.properties.Win_Perc*5);
-        });
-        // console.log('style applied');
-
+    // TODO show 0 natl titles on map
+    function calculateRadius(property, value) {
+        return property === 'wins' ? value/150 :
+            property === 'winPercent' ? value * 20 :
+                property === 'titles' ? value * 1.5 :
+                    property === 'seasons' ? value / 8 :
+                        value;
     }
 
     // TODO loop through inputs instead?
-    function toggleLayer() {
+    function toggleLayer(geojson) {
         const btns = document.getElementById('buttons');
         btns.addEventListener('click', (e) => {
            // console.log(e.target.children[0].id);
+
+            const stops = createCircleRadiusStops(geojson, e.target.children[0].id);
+            console.log(stops);
 
 
             map.setPaintProperty('schools', 'circle-radius',
                 {
                     property: e.target.children[0].id,
-                    stops: [
-                        [{zoom: 1, value: 0.5}, 1],
-                        [{zoom: 1, value: 0.6}, 5],
-                        [{zoom: 1, value: 0.7}, 10],
-                    ]
+                    stops: stops,
+                    // stops: [
+                    //     [{zoom: 1, value: 0.5}, 1],
+                    //     [{zoom: 1, value: 0.6}, 5],
+                    //     [{zoom: 1, value: 0.7}, 10],
+                    // ]
                 }
             );
 
