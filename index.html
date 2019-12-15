@@ -114,6 +114,25 @@
     // }
 
     function createLayer(geojson) {
+
+        const values = [];
+        const stops = [];
+
+        geojson.features.forEach(feature => {
+            values.push(feature.properties.wins);
+
+            // stops.push([{zoom: 1, value: feature.properties.wins}, feature.properties.wins/250]);
+        });
+        // console.log(values);
+        // console.log(values.sort());
+
+        const sortedValues = values.sort((a, b) => { return a-b });
+        sortedValues.forEach(val => {
+            stops.push([{zoom: 1, value: val}, val/250]);
+        });
+
+        // console.log(stops);
+
         map.addLayer({
             id: 'schools',
             type: 'circle',
@@ -123,12 +142,13 @@
             },
             paint: {
                 'circle-radius': {
-                    property: 'winPercent',
-                    stops: [
-                        [{zoom: 1, value: 0.5}, 1],
-                        [{zoom: 1, value: 0.6}, 5],
-                        [{zoom: 1, value: 0.7}, 10],
-                    ],
+                    property: 'wins',
+                    stops: stops,
+                    // stops: [
+                    //     [{zoom: 1, value: 1500}, 1],
+                    //     [{zoom: 1, value: 2000}, 5],
+                    //     [{zoom: 1, value: 2500}, 10],
+                    // ],
                 },
             }
         });
@@ -148,7 +168,7 @@
     function toggleLayer() {
         const btns = document.getElementById('buttons');
         btns.addEventListener('click', (e) => {
-           console.log(e.target.children[0].id);
+           // console.log(e.target.children[0].id);
 
 
             map.setPaintProperty('schools', 'circle-radius',
