@@ -113,7 +113,17 @@
             paint: {
                 'circle-radius': {
                     property: 'wins',
-                    stops: createCircleRadiusStops(geojson, 'wins'),
+                    stops: [
+                        [500, 1],
+                        [1200, 5],
+                        [1400, 9],
+                        [1600, 13],
+                        [1800, 17],
+                        [2000, 21],
+                        [2200, 25],
+                        [2500, 29],
+                    ]
+                    // stops: createCircleRadiusStops(geojson, 'wins'),
                 },
                 // 'circle-color': setCircleColor(geojson, true),
                 'circle-color': '#414140',
@@ -140,18 +150,21 @@
         // empty arrays to hold property values and stops
         const values = [];
         const stops = [];
+        const tmp = [];
 
         // push unsorted feature property values to array
         geojson.features.forEach(feature => {
             values.push(feature.properties[property]);
         });
 
+        // TODO read in as simple array match?
         // sort array in ascending order, required by mapbox data-driven styles for circle radius
         const sortedValues = values.sort((a, b) => { return a-b });
         // push arrays with each property value and its calculated radius
         sortedValues.forEach(val => {
             stops.push([{zoom: 1, value: val}, calculateRadius(property, val)]);
         });
+        console.log(stops);
         return stops;
     }
 
