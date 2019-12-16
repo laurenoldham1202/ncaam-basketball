@@ -6,6 +6,7 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.1/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Palanquin&display=swap" rel="stylesheet">
 
     <style>
         body {
@@ -34,10 +35,28 @@
             border-bottom: 3px solid orange;
         }
 
-        .popup-title {
-            text-align: center;
-            font-size: 16pt;
+        .popup-content {
+            /*text-align: center;*/
+            padding: 1rem;
         }
+
+        .popup-gsf {
+            font-family: 'Palanquin', sans-serif;
+            font-size: 0.9rem;
+            width: 14rem;
+        }
+
+        .popup-gsf .mapboxgl-popup-content {
+            padding: 0 !important;
+        }
+
+        .popup-header {
+            font-size: 14pt;
+            color: #FFF;
+            padding: 1rem;
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
@@ -85,6 +104,7 @@
     var popup = new mapboxgl.Popup({
         closeButton: false,
         closeOnClick: false,
+        className: 'popup-gsf',
     });
 
     map.on('load', () => {
@@ -95,6 +115,7 @@
             createLayer(geojson);
             triggerPopup();
             toggleLayer(geojson);
+            // createRadiusStops(geojson);
         });
     });
 
@@ -113,16 +134,17 @@
             paint: {
                 'circle-radius': {
                     property: 'wins',
-                    stops: [
-                        [500, 1],
-                        [1200, 5],
-                        [1400, 9],
-                        [1600, 13],
-                        [1800, 17],
-                        [2000, 21],
-                        [2200, 25],
-                        [2500, 29],
-                    ]
+                    stops: createRadiusStops('wins'),
+                    // stops: [
+                    //     [500, 1],
+                    //     [1200, 5],
+                    //     [1400, 9],
+                    //     [1600, 13],
+                    //     [1800, 17],
+                    //     [2000, 21],
+                    //     [2200, 25],
+                    //     [2500, 29],
+                    // ]
                     // stops: createCircleRadiusStops(geojson, 'wins'),
                 },
                 // 'circle-color': setCircleColor(geojson, true),
@@ -143,6 +165,61 @@
         return ['match', ['get', 'fullName'], ...colors, '#AAA'];
     }
 
+    function createRadiusStops(property) {
+
+        const wins = [
+            [500, 1],
+            [1200, 4],
+            [1400, 8],
+            [1600, 13],
+            [1800, 19],
+            [2000, 26],
+            [2200, 34],
+            [2500, 43],
+        ];
+
+        const winPercent = [
+            [0.500, 1],
+            [0.540, 4],
+            [0.580, 8],
+            [0.620, 13],
+            [0.660, 19],
+            [0.700, 26],
+            [0.740, 34],
+            [0.780, 43],
+        ];
+
+        const titles = [
+            [0, 1],
+            [1, 4],
+            [2, 8],
+            [3, 13],
+            [4, 19],
+            [5, 26],
+            [6, 34],
+            [8, 45],
+            [11, 65],
+        ];
+
+        const seasons = [
+            [50, 1],
+            [90, 4],
+            [95, 8],
+            [100, 13],
+            [105, 19],
+            [110, 26],
+            [115, 34],
+            [120, 43],
+        ];
+
+        return property === 'wins' ? wins :
+            property === 'winPercent' ? winPercent :
+                property === 'titles' ? titles :
+                    property === 'seasons' ? seasons :
+                        [0, 0];
+
+    }
+
     // TODO dynamically generate breaks for each property?
     function createCircleRadiusStops(geojson, property) {
 
@@ -150,7 +227,6 @@
         // empty arrays to hold property values and stops
         const values = [];
         const stops = [];
-        const tmp = [];
 
         // push unsorted feature property values to array
         geojson.features.forEach(feature => {
@@ -164,11 +240,11 @@
         sortedValues.forEach(val => {
             stops.push([{zoom: 1, value: val}, calculateRadius(property, val)]);
         });
-        console.log(stops);
         return stops;
     }
 
     function calculateRadius(property, value) {
+        console.log(value);
         return property === 'wins' ? value / 150 :
             property === 'winPercent' ? value * value * 30 :
                 property === 'titles' ? (value + 1) * 2 :  // add +1 to show teams with 0 titles on the map
@@ -182,24 +258,27 @@
         btns.addEventListener('click', (e) => {
             // set circle radius based on selected property
             const selectedProperty = e.target.children[0].id;
-            const stops = createCircleRadiusStops(geojson, selectedProperty);
+            // const stops = createCircleRadiusStops(geojson, selectedProperty);
+            const stops = createRadiusStops(selectedProperty);
             map.setPaintProperty('schools', 'circle-radius', { property: selectedProperty, stops: stops });
         });
     }
 
     function triggerPopup() {
-        map.on('mouseenter', 'schools', (e) => {
+        map.on('mousemove', 'schools', (e) => {
 
             // TODO: Add school colors and mascots? images?
             // TODO: Add popup styling
             // TODO Create formula for overall best teams?
             const props = e.features[0].properties;
-            const popupContent = `<div class="popup-title">${props.fullName}</div>
-                <hr>
-                <strong>${props.wins}</strong> Overall Wins Since ${props.firstSeason}
-                <br>${props.losses} Losses
-                <br><strong>${(props.winPercent * 100).toFixed(2)}%</strong> of Games Won Overall
-                <br><strong>${props.titles}</strong> National Titles
+            const popupContent = `<div class="popup-header" style="background: ${props.primaryColor};
+                    border-bottom: 6px solid ${props.secondaryColor};">${props.fullName}</div>
+                <div class="popup-content">
+                    <strong>${props.wins}</strong> Overall Wins Since ${props.firstSeason}
+                    <br>${props.losses} Losses
+                    <br><strong>${(props.winPercent * 100).toFixed(2)}%</strong> of Games Won Overall
+                    <br><strong>${props.titles}</strong> National Titles
+                </div>
              `;
 
             popup.setLngLat(e.lngLat)
