@@ -245,10 +245,35 @@
                 map.getSource('schools')['_data'].features.forEach(school => {
                     console.log(school);
                     if (school.properties.fullName === selectedSchool) {
+                        displayPopup(school, school.geometry.coordinates);
 
-                        const props = school.properties;
-                        const rank = props.Rank !== 'NA' ? `<strong>#${props.Rank}</strong> overall winningest team` : 'Not ranked in top 50 overall winningest teams'
-                        const popupContent = `<div class="popup-header" style="background: ${props.primaryColor};
+             //            const props = school.properties;
+             //            const rank = props.Rank !== 'NA' ? `<strong>#${props.Rank}</strong> overall winningest team` : 'Not ranked in top 50 overall winningest teams'
+             //            const popupContent = `<div class="popup-header" style="background: ${props.primaryColor};
+             //        border-bottom: 6px solid ${props.secondaryColor};">${props.College} ${props.mascot}</div>
+             //    <div class="popup-content">
+             //    - ${rank}
+             //    <br>- <strong>${props.wins} wins</strong> and ${props.losses} losses
+             //    <br>- <strong>${(props.winPercent * 100).toFixed(2)}%</strong> winning percentage
+             //    <br>- <strong>${props.titles}</strong> National Championship titles
+             //    </div>
+             // `;
+             //
+             //            popup.setLngLat(school.geometry.coordinates)
+             //                .setHTML(popupContent)
+             //                .addTo(map);
+                    }
+                });
+
+            });
+        });
+
+    });
+
+    function displayPopup(targetSchool, anchor) {
+        const props = targetSchool.properties;
+        const rank = props.Rank !== 'NA' ? `<strong>#${props.Rank}</strong> overall winningest team` : 'Not ranked in top 50 overall winningest teams'
+        const popupContent = `<div class="popup-header" style="background: ${props.primaryColor};
                     border-bottom: 6px solid ${props.secondaryColor};">${props.College} ${props.mascot}</div>
                 <div class="popup-content">
                 - ${rank}
@@ -258,35 +283,10 @@
                 </div>
              `;
 
-                        popup.setLngLat(school.geometry.coordinates)
-                            .setHTML(popupContent)
-                            .addTo(map);
-
-                        // this.fitBbox(this.map.getSource(CLICKED_IMAGE_FOOTPRINTS)['_data']);
-                        // const bbox = T.bbox(geometry);
-                        // this.map.fitBounds(newBbox as M.LngLatBoundsLike);
-
-
-                        // map.fitBounds(map.getSource('schools')['_data'].geometry, { padding: 250 });
-                        // console.log()
-                    }
-                });
-
-                // const schoolLayer = map.getSource('schools');
-                // console.log(schoolLayer);
-                // console.log(schoolLayer['_data']);
-
-                // geojson.features.forEach(feature => {
-                //     if (feature.properties.fullName === selectedSchool) {
-                //         console.log(feature);
-                //     }
-                // });
-
-
-            });
-        });
-
-    });
+        popup.setLngLat(anchor)
+            .setHTML(popupContent)
+            .addTo(map);
+    }
 
     function toggleSchoolStyles(geojson) {
         const toggle = document.getElementsByClassName('custom-control-input')[0];
@@ -400,24 +400,26 @@
     function triggerPopup() {
         map.on('mousemove', 'schools', (e) => {
 
+            displayPopup(e.features[0], e.lngLat);
+
             // TODO: Add school colors and mascots? images?
             // TODO: Add popup styling
             // TODO Create formula for overall best teams?
-            const props = e.features[0].properties;
-            const rank = props.Rank !== 'NA' ? `<strong>#${props.Rank}</strong> overall winningest team` : 'Not ranked in top 50 overall winningest teams'
-            const popupContent = `<div class="popup-header" style="background: ${props.primaryColor};
-                    border-bottom: 6px solid ${props.secondaryColor};">${props.College} ${props.mascot}</div>
-                <div class="popup-content">
-                - ${rank}
-                <br>- <strong>${props.wins} wins</strong> and ${props.losses} losses
-                <br>- <strong>${(props.winPercent * 100).toFixed(2)}%</strong> winning percentage
-                <br>- <strong>${props.titles}</strong> National Championship titles
-                </div>
-             `;
-
-            popup.setLngLat(e.lngLat)
-               .setHTML(popupContent)
-               .addTo(map);
+            // const props = e.features[0].properties;
+            // const rank = props.Rank !== 'NA' ? `<strong>#${props.Rank}</strong> overall winningest team` : 'Not ranked in top 50 overall winningest teams'
+            // const popupContent = `<div class="popup-header" style="background: ${props.primaryColor};
+            //         border-bottom: 6px solid ${props.secondaryColor};">${props.College} ${props.mascot}</div>
+            //     <div class="popup-content">
+            //     - ${rank}
+            //     <br>- <strong>${props.wins} wins</strong> and ${props.losses} losses
+            //     <br>- <strong>${(props.winPercent * 100).toFixed(2)}%</strong> winning percentage
+            //     <br>- <strong>${props.titles}</strong> National Championship titles
+            //     </div>
+            //  `;
+            //
+            // popup.setLngLat(e.lngLat)
+            //    .setHTML(popupContent)
+            //    .addTo(map);
         });
 
         map.on('mouseleave', 'schools', () => {
