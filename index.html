@@ -23,6 +23,7 @@
         #map {
             position: absolute;
             top: 6rem;
+            /*left: 20rem;*/
             bottom: 0;
             width: 100%;
         }
@@ -32,10 +33,10 @@
         }
 
         .header {
-            position: fixed;
-            top: 0;
-            right: 0;
-            left: 0;
+            /*position: fixed;*/
+            /*top: 0;*/
+            /*right: 0;*/
+            /*left: 0;*/
             background: whitesmoke;
             text-align: center;
         }
@@ -63,6 +64,17 @@
 
         .mapboxgl-popup {
             max-width: 400px !important;
+        }
+
+        .table-container {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 20rem;
+            width: 20rem;
+            background: whitesmoke;
+            z-index: 1100;
+            overflow: scroll;
         }
 
         .toggle-container {
@@ -125,6 +137,46 @@
 <body>
 
 <div id="map"></div>
+<!--<div class="table-container">-->
+<!--    <table id="example" class="table table-striped table-bordered" style="width:100%; height: 100%;">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>School</th>-->
+<!--            <th>Ranked</th>-->
+<!--            <th>Wins</th>-->
+<!--            <th>Losses</th>-->
+<!--            <th>Win Percentage</th>-->
+<!--            <th>Titles</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr>-->
+<!--            <td>Tiger Nixon</td>-->
+<!--            <td>System Architect</td>-->
+<!--            <td>Edinburgh</td>-->
+<!--            <td>61</td>-->
+<!--            <td>2011/04/25</td>-->
+<!--            <td>$320,800</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>Fiona Green</td>-->
+<!--            <td>Chief Operating Officer (COO)</td>-->
+<!--            <td>San Francisco</td>-->
+<!--            <td>48</td>-->
+<!--            <td>2010/03/11</td>-->
+<!--            <td>$850,000</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>Donna Snider</td>-->
+<!--            <td>Customer Support</td>-->
+<!--            <td>New York</td>-->
+<!--            <td>27</td>-->
+<!--            <td>2011/01/25</td>-->
+<!--            <td>$112,000</td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</div>-->
 <div class="header">
     <h1>Men's College Basketball Domination
         <i class="material-icons">info</i>
@@ -188,7 +240,42 @@
             triggerPopup();
             toggleLayer(geojson);
             toggleSchoolStyles(geojson);
+
+            const tmp = $('tbody');
+
+            geojson.features.forEach(feature => {
+                // console.log(feature.properties);
+                tmp.append(`
+                <tr>
+                    <td>${feature.properties.fullName}</td>
+                    <td>${feature.properties.Rank}</td>
+                    <td>${feature.properties.wins}</td>
+                    <td>${feature.properties.losses}</td>
+                    <td>${feature.properties.winPercent}</td>
+                    <td>${feature.properties.titles}</td>
+                </tr>
+                `);
+            });
+
+            const row = $('tr');
+            // console.log(row);
+            row.on('click', function(e) {
+                console.log(e.currentTarget.firstElementChild.innerText);
+            });
         });
+
+        const tmp = $('tbody');
+        tmp.append(`
+                <tr>
+            <td>Lauren Oldham</td>
+            <td>DEveloper</td>
+            <td>Ithaca</td>
+            <td>28</td>
+            <td>2011/04/25</td>
+            <td>$79,000</td>
+        </tr>
+        `);
+        // console.log(tmp);
     });
 
     function toggleSchoolStyles(geojson) {
