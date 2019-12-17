@@ -12,6 +12,7 @@
         body {
             margin: 0;
             padding: 0;
+            font-family: 'Palanquin', sans-serif;
         }
 
         #map {
@@ -33,28 +34,32 @@
             height: 6rem;
             background: whitesmoke;
             border-bottom: 3px solid orange;
+            text-align: center;
         }
 
         .popup-content {
-            /*text-align: center;*/
             padding: 1rem;
         }
 
-        .popup-gsf {
+        .school-popup {
             font-family: 'Palanquin', sans-serif;
-            font-size: 0.9rem;
-            width: 14rem;
+            font-size: 13pt;
+            width: 20rem;
         }
 
-        .popup-gsf .mapboxgl-popup-content {
+        .school-popup .mapboxgl-popup-content {
             padding: 0 !important;
         }
 
         .popup-header {
-            font-size: 14pt;
+            font-size: 16pt;
             color: #FFF;
             padding: 1rem;
             text-align: center;
+        }
+
+        .mapboxgl-popup {
+            max-width: 400px !important;
         }
 
     </style>
@@ -64,6 +69,11 @@
 <div id="map"></div>
 <div class="header">
     <h1>Men's College Basketball Domination</h1>
+
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="customSwitch1" checked>
+        <label class="custom-control-label" for="customSwitch1">Style circles with school colors</label>
+    </div>
 
     <div class="btn-group btn-group-toggle btn-group-lg" data-toggle="buttons" id="buttons">
         <label class="btn btn-secondary active">
@@ -104,7 +114,7 @@
     var popup = new mapboxgl.Popup({
         closeButton: false,
         closeOnClick: false,
-        className: 'popup-gsf',
+        className: 'school-popup',
     });
 
     map.on('load', () => {
@@ -116,7 +126,15 @@
             triggerPopup();
             toggleLayer(geojson);
             // createRadiusStops(geojson);
+
+
+
+            const toggle = document.getElementsByClassName('custom-control-input')[0];
+            toggle.onclick = (e) => {
+                map.setPaintProperty('schools', 'circle-color', e.target.checked ? setCircleColor(geojson, true) : '#414140');
+            }
         });
+
     });
 
     /**
@@ -148,7 +166,7 @@
                     // stops: createCircleRadiusStops(geojson, 'wins'),
                 },
                 // 'circle-color': setCircleColor(geojson, true),
-                'circle-color': '#414140',
+                'circle-color': setCircleColor(geojson, true),
                 'circle-opacity': 0.7,
                 'circle-stroke-color': setCircleColor(geojson, true),
                 'circle-stroke-width': 1,
@@ -156,8 +174,8 @@
         });
     }
 
-    function setCircleColor(geojson, isCircleColor) {
-        const color = isCircleColor ? 'primaryColor' : 'secondaryColor';
+    function setCircleColor(geojson, primary) {
+        const color = primary ? 'primaryColor' : 'secondaryColor';
         const colors = [];
         geojson.features.forEach(feature => {
             colors.push(feature.properties.fullName, feature.properties[color]);
@@ -167,50 +185,11 @@
 
     function createRadiusStops(property) {
 
-        const wins = [
-            [500, 1],
-            [1200, 4],
-            [1400, 8],
-            [1600, 13],
-            [1800, 19],
-            [2000, 26],
-            [2200, 34],
-            [2500, 43],
-        ];
-
-        const winPercent = [
-            [0.500, 1],
-            [0.540, 4],
-            [0.580, 8],
-            [0.620, 13],
-            [0.660, 19],
-            [0.700, 26],
-            [0.740, 34],
-            [0.780, 43],
-        ];
-
-        const titles = [
-            [0, 1],
-            [1, 4],
-            [2, 8],
-            [3, 13],
-            [4, 19],
-            [5, 26],
-            [6, 34],
-            [8, 45],
-            [11, 65],
-        ];
-
-        const seasons = [
-            [50, 1],
-            [90, 4],
-            [95, 8],
-            [100, 13],
-            [105, 19],
-            [110, 26],
-            [115, 34],
-            [120, 43],
-        ];
+        // create arrays for data breaks for each selected property
+        const wins = [[500, 1], [1200, 4], [1400, 8], [1600, 13], [1800, 19], [2000, 26], [2200, 34], [2500, 43]];
+        const winPercent = [[0.500, 1], [0.540, 4], [0.580, 8], [0.620, 13], [0.660, 19], [0.700, 26], [0.740, 34], [0.780, 43]];
+        const titles = [[0, 1], [1, 4], [2, 8], [3, 13], [4, 19], [5, 26], [6, 34], [8, 45], [11, 65]];
+        const seasons = [[50, 1], [90, 4], [95, 8], [100, 13], [105, 19], [110, 26], [115, 34], [120, 43]];
 
         return property === 'wins' ? wins :
             property === 'winPercent' ? winPercent :
@@ -220,37 +199,33 @@
 
     }
 
-    // TODO dynamically generate breaks for each property?
-    function createCircleRadiusStops(geojson, property) {
-
-        // TODO find better sorting?
-        // empty arrays to hold property values and stops
-        const values = [];
-        const stops = [];
-
-        // push unsorted feature property values to array
-        geojson.features.forEach(feature => {
-            values.push(feature.properties[property]);
-        });
-
-        // TODO read in as simple array match?
-        // sort array in ascending order, required by mapbox data-driven styles for circle radius
-        const sortedValues = values.sort((a, b) => { return a-b });
-        // push arrays with each property value and its calculated radius
-        sortedValues.forEach(val => {
-            stops.push([{zoom: 1, value: val}, calculateRadius(property, val)]);
-        });
-        return stops;
-    }
-
-    function calculateRadius(property, value) {
-        console.log(value);
-        return property === 'wins' ? value / 150 :
-            property === 'winPercent' ? value * value * 30 :
-                property === 'titles' ? (value + 1) * 2 :  // add +1 to show teams with 0 titles on the map
-                    property === 'seasons' ? value / 8 :
-                        value;
-    }
+    // function createCircleRadiusStops(geojson, property) {
+    //
+    //     // empty arrays to hold property values and stops
+    //     const values = [];
+    //     const stops = [];
+    //
+    //     // push unsorted feature property values to array
+    //     geojson.features.forEach(feature => {
+    //         values.push(feature.properties[property]);
+    //     });
+    //
+    //     // sort array in ascending order, required by mapbox data-driven styles for circle radius
+    //     const sortedValues = values.sort((a, b) => { return a-b });
+    //     // push arrays with each property value and its calculated radius
+    //     sortedValues.forEach(val => {
+    //         stops.push([{zoom: 1, value: val}, calculateRadius(property, val)]);
+    //     });
+    //     return stops;
+    // }
+    //
+    // function calculateRadius(property, value) {
+    //     return property === 'wins' ? value / 150 :
+    //         property === 'winPercent' ? value * value * 30 :
+    //             property === 'titles' ? (value + 1) * 2 :  // add +1 to show teams with 0 titles on the map
+    //                 property === 'seasons' ? value / 8 :
+    //                     value;
+    // }
 
     // TODO loop through inputs instead?
     function toggleLayer(geojson) {
@@ -271,13 +246,14 @@
             // TODO: Add popup styling
             // TODO Create formula for overall best teams?
             const props = e.features[0].properties;
+            const rank = props.Rank !== 'NA' ? `<strong>#${props.Rank}</strong> overall winningest team` : 'Not ranked in top 50 overall winningest teams'
             const popupContent = `<div class="popup-header" style="background: ${props.primaryColor};
-                    border-bottom: 6px solid ${props.secondaryColor};">${props.fullName}</div>
+                    border-bottom: 6px solid ${props.secondaryColor};">${props.College} ${props.mascot}</div>
                 <div class="popup-content">
-                    <strong>${props.wins}</strong> Overall Wins Since ${props.firstSeason}
-                    <br>${props.losses} Losses
-                    <br><strong>${(props.winPercent * 100).toFixed(2)}%</strong> of Games Won Overall
-                    <br><strong>${props.titles}</strong> National Titles
+                - ${rank}
+                <br>- <strong>${props.wins} wins</strong> and ${props.losses} losses
+                <br>- <strong>${(props.winPercent * 100).toFixed(2)}%</strong> winning percentage
+                <br>- <strong>${props.titles}</strong> National Championship titles
                 </div>
              `;
 
