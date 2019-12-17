@@ -27,13 +27,13 @@
         }
 
         .header {
-            position: absolute;
+            position: fixed;
             top: 0;
             right: 0;
             left: 0;
-            height: 6rem;
+            /*height: 6rem;*/
+            /*padding: 1rem;*/
             background: whitesmoke;
-            border-bottom: 3px solid orange;
             text-align: center;
         }
 
@@ -62,6 +62,57 @@
             max-width: 400px !important;
         }
 
+        .toggle-container {
+            position: absolute;
+            /*top: 1rem;*/
+            /*right: 1rem;*/
+            /*left: 1rem;*/
+            /*width: auto;*/
+            top: 7rem;
+            right: 0.5rem;
+            background: whitesmoke;
+            padding: 0.5rem;
+            z-index: 1000;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 6px 6px 20px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 1030px) {
+            .btn-group-lg>.btn, .btn-lg {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 841px) {
+            .toggle-container {
+                top: 8rem;
+            }
+        }
+
+        @media (max-width: 636px) {
+            .btn-group-lg>.btn, .btn-lg {
+                font-size: 0.75rem;
+            }
+
+            .toggle-container {
+                top: 10rem;
+            }
+        }
+
+        @media (max-width: 430px) {
+
+            h1 {
+                font-size: 1.5rem !important;
+            }
+            .btn-group-lg>.btn, .btn-lg {
+                font-size: 0.75rem;
+            }
+
+            .toggle-container {
+                top: 9rem;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -69,11 +120,6 @@
 <div id="map"></div>
 <div class="header">
     <h1>Men's College Basketball Domination</h1>
-
-    <div class="custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input" id="customSwitch1" checked>
-        <label class="custom-control-label" for="customSwitch1">Style circles with school colors</label>
-    </div>
 
     <div class="btn-group btn-group-toggle btn-group-lg" data-toggle="buttons" id="buttons">
         <label class="btn btn-secondary active">
@@ -88,6 +134,13 @@
         <label class="btn btn-secondary">
             <input type="radio" id="seasons"> Number of Seasons
         </label>
+    </div>
+
+    <div class="toggle-container">
+        <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" id="customSwitch1" checked>
+            <label class="custom-control-label" for="customSwitch1">Style circles with school colors</label>
+        </div>
     </div>
 
 </div>
@@ -121,21 +174,19 @@
 
         // load json with geocoded locations
         d3.json('data/school-stats.json').then(geojson => {
-            // console.log(geojson);
             createLayer(geojson);
             triggerPopup();
             toggleLayer(geojson);
-            // createRadiusStops(geojson);
-
-
-
-            const toggle = document.getElementsByClassName('custom-control-input')[0];
-            toggle.onclick = (e) => {
-                map.setPaintProperty('schools', 'circle-color', e.target.checked ? setCircleColor(geojson, true) : '#414140');
-            }
+            toggleSchoolStyles(geojson);
         });
-
     });
+
+    function toggleSchoolStyles(geojson) {
+        const toggle = document.getElementsByClassName('custom-control-input')[0];
+        toggle.onclick = (e) => {
+            map.setPaintProperty('schools', 'circle-color', e.target.checked ? setCircleColor(geojson, true) : '#414140');
+        }
+    }
 
     /**
      * Create mapbox layer for schools, set initial view for Overall wins
