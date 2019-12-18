@@ -223,7 +223,7 @@
     var map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/light-v9',
-        center: [-97, 39.5],
+        center: [-98.5, 39.5],
         zoomSnap: 0.1,
         zoom: 3.8,
     });
@@ -238,6 +238,8 @@
     map.on('load', () => {
 
         // load json with geocoded locations
+        // TODO Add highest win % teams!
+        // https://en.wikipedia.org/wiki/List_of_teams_with_the_highest_winning_percentage_in_NCAA_Division_I_men%27s_college_basketball
         d3.json('data/school-stats.json').then(geojson => {
             createLayer(geojson);
             triggerPopup();
@@ -280,6 +282,7 @@
         });
     }
 
+    // TODO Add team logo to popup?
     function displayPopup(targetSchool, anchor) {
         const props = targetSchool.properties;
         const rank = props.Rank !== 'NA' ? `<strong>#${props.Rank}</strong> overall winningest team` : 'Not ranked in top 50 overall winningest teams'
