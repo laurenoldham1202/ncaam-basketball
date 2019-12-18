@@ -27,7 +27,7 @@
         #map {
             position: absolute;
             top: 6rem;
-            left: 35rem;
+            left: 32rem;
             right: 0;
             bottom: 0;
             /*width: 100%;*/
@@ -38,10 +38,11 @@
         }
 
         .header {
-            /*position: fixed;*/
-            /*top: 0;*/
-            /*right: 0;*/
-            /*left: 0;*/
+            position: fixed;
+            top: 0;
+            right: 0;
+            /* left: 0; */
+            left: 32rem;
             background: whitesmoke;
             text-align: center;
         }
@@ -73,21 +74,15 @@
 
         .table-container {
             position: absolute;
-            top: 8rem;
+            top: 0;
             bottom: 0;
-            /*left: 20rem;*/
-            width: 35rem;
+            width: 32rem;
             background: whitesmoke;
-            /*z-index: 1100;*/
             overflow: scroll;
         }
 
         .toggle-container {
             position: absolute;
-            /*top: 1rem;*/
-            /*right: 1rem;*/
-            /*left: 1rem;*/
-            /*width: auto;*/
             top: 8.5rem;
             right: 0.5rem;
             background: whitesmoke;
@@ -156,6 +151,7 @@
         </thead>
         <tbody></tbody>
     </table>
+
 </div>
 <div class="header">
     <h1>Men's College Basketball Domination
@@ -201,7 +197,8 @@
         container: 'map', // container id
         style: 'mapbox://styles/mapbox/light-v9', // stylesheet location
         center: [-97, 39.5],
-        zoom: 4,
+        zoomSnap: 0.1,
+        zoom: 3.8,
     });
 
     // popup for mouseover
@@ -223,7 +220,6 @@
             const tableBody = $('tbody');
 
             geojson.features.forEach(feature => {
-                // console.log(feature.properties);
                 tableBody.append(`
                 <tr>
                     <td><strong>${feature.properties.fullName}</strong></td>
@@ -240,32 +236,30 @@
             const row = $('tr');
             row.on('click', (e) => {
                 const selectedSchool = e.currentTarget.firstElementChild.innerText;
-                // console.log(selectedSchool);
-
                 map.getSource('schools')['_data'].features.forEach(school => {
-                    console.log(school);
                     if (school.properties.fullName === selectedSchool) {
+                        // TODO Change row color of selected element?
                         displayPopup(school, school.geometry.coordinates);
-
-             //            const props = school.properties;
-             //            const rank = props.Rank !== 'NA' ? `<strong>#${props.Rank}</strong> overall winningest team` : 'Not ranked in top 50 overall winningest teams'
-             //            const popupContent = `<div class="popup-header" style="background: ${props.primaryColor};
-             //        border-bottom: 6px solid ${props.secondaryColor};">${props.College} ${props.mascot}</div>
-             //    <div class="popup-content">
-             //    - ${rank}
-             //    <br>- <strong>${props.wins} wins</strong> and ${props.losses} losses
-             //    <br>- <strong>${(props.winPercent * 100).toFixed(2)}%</strong> winning percentage
-             //    <br>- <strong>${props.titles}</strong> National Championship titles
-             //    </div>
-             // `;
-             //
-             //            popup.setLngLat(school.geometry.coordinates)
-             //                .setHTML(popupContent)
-             //                .addTo(map);
                     }
                 });
-
             });
+        });
+
+        const iconBtn = $('.material-icons');
+        const tableContainer = $('.table-container');
+        const mapDiv = $('#map');
+        let open = true;
+        iconBtn.on('click', (e) => {
+            open = !open;
+
+            if (!open) {
+                tableContainer[0].style.width = 0;
+                console.log(mapDiv);
+                mapDiv[0].style.left = 0;
+                // console.log(tableContainer[0].style.width);
+            }
+            // console.log(open);
+           // console.log(e);
         });
 
     });
@@ -424,6 +418,10 @@
 
         map.on('mouseleave', 'schools', () => {
            popup.remove();
+        });
+
+        map.on('click', () => {
+            popup.remove();
         });
     }
 
