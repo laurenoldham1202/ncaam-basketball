@@ -30,7 +30,6 @@
             left: 32rem;
             right: 0;
             bottom: 0;
-            /*width: 100%;*/
         }
 
         .btn-group {
@@ -41,7 +40,6 @@
             position: fixed;
             top: 0;
             right: 0;
-            /* left: 0; */
             left: 32rem;
             background: whitesmoke;
             text-align: center;
@@ -84,7 +82,6 @@
         .toggle-container {
             position: absolute;
             bottom: 1.5rem;
-            /*top: 8.5rem;*/
             right: 0.5rem;
             background: whitesmoke;
             padding: 0.5rem;
@@ -93,15 +90,24 @@
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 6px 6px 20px 0 rgba(0, 0, 0, 0.2);
         }
 
+        @media (max-width: 1205px) {
+            .table-container {
+                width: 0;
+            }
+
+            .header {
+                left: 0;
+            }
+
+            #map {
+                left: 0;
+            }
+        }
+
         @media (max-width: 1030px) {
             .btn-group-lg>.btn, .btn-lg {
                 font-size: 1rem;
             }
-
-        }
-
-        @media (max-width: 841px) {
-
         }
 
         @media (max-width: 659px) {
@@ -111,10 +117,10 @@
         }
 
         @media (max-width: 430px) {
-
             h1 {
                 font-size: 1.5rem !important;
             }
+
             .btn-group-lg>.btn, .btn-lg {
                 font-size: 0.75rem;
             }
@@ -215,14 +221,12 @@
 
     // create a new map
     var map = new mapboxgl.Map({
-        container: 'map', // container id
-        style: 'mapbox://styles/mapbox/light-v9', // stylesheet location
+        container: 'map',
+        style: 'mapbox://styles/mapbox/light-v9',
         center: [-97, 39.5],
         zoomSnap: 0.1,
         zoom: 3.8,
     });
-
-    map.setMaxBounds(map.getBounds());
 
     // popup for mouseover
     var popup = new mapboxgl.Popup({
@@ -244,7 +248,7 @@
         });
     });
 
-    // TODO Make table sortable
+    // TODO Make table sortable from header, make table collapsible
     function createTable(geojson) {
         const tableBody = $('tbody');
 
@@ -354,7 +358,6 @@
     function toggleLayer() {
         const btns = $('#buttons');
         btns.on('click', (e) => {
-            console.log(e);
             // set circle radius based on selected property
             const selectedProperty = e.target.children[0].id;
             const stops = createRadiusStops(selectedProperty);
